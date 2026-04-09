@@ -2,12 +2,11 @@ package modelo;
 
 public class PlatoPrincipal extends Producto {
 
-    public PlatoPrincipal(String nombre, double precio) {
-        super(nombre, precio);
+    public PlatoPrincipal(double precio){
+        super(precio);
     }
 
-    @Override
-    public boolean esPlatoPrincipal() {
-        return true;
+    public double precioConDescuento(){
+        return precio - (precio*0.02);
     }
 }

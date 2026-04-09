@@ -1,39 +1,40 @@
 package modelo;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Concurso {
-    private String nombre;
+    private int id;
     private LocalDate inicio;
     private LocalDate fin;
-    private List<Participante> participantes;
+    private int puntos;
+    private List<Participante> participantes=new ArrayList<>();
+    private RegistroInscripcion registro;
+    private Notificador notificador;
 
-    public Concurso(String nombre, LocalDate inicio, LocalDate fin) {
-        this.nombre = nombre;
-        this.inicio = inicio;
-        this.fin = fin;
-        this.participantes = new ArrayList<>();
+    public Concurso(int id,LocalDate i,LocalDate f,int p,RegistroInscripcion r,Notificador n){
+        this.id=id;
+        inicio=i;
+        fin=f;
+        puntos=p;
+        registro=r;
+        notificador=n;
     }
 
-    public void inscribir(Participante participante, LocalDate fecha) {
-        if (!fechaValida(fecha)) {
-            throw new RuntimeException("Fuera de fecha");
-        }
+    public void inscribir(Participante p,LocalDate fecha){
+        if(fecha.isBefore(inicio)||fecha.isAfter(fin))
+            throw new RuntimeException();
 
-        participantes.add(participante);
+        participantes.add(p);
 
-        if (fecha.equals(inicio)) {
-            participante.recibirPuntosPorInscripcion();
-        }
+        if(fecha.equals(inicio))
+            p.sumarPuntos(puntos);
+
+        registro.registrar(fecha,p.id(),id);
+        notificador.enviar("Inscripto");
     }
 
-    private boolean fechaValida(LocalDate fecha) {
-        return !fecha.isBefore(inicio) && !fecha.isAfter(fin);
-    }
-
-    public boolean estaInscripto(Participante participante) {
-        return participantes.contains(participante);
+    public boolean estaInscripto(Participante p){
+        return participantes.contains(p);
     }
 }

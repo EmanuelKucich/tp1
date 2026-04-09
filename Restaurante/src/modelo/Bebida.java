@@ -2,12 +2,11 @@ package modelo;
 
 public class Bebida extends Producto {
 
-    public Bebida(String nombre, double precio) {
-        super(nombre, precio);
+    public Bebida(double precio){
+        super(precio);
     }
 
-    @Override
-    public boolean esBebida() {
-        return true;
+    public double precioConDescuento(){
+        return precio - (precio*0.03);
     }
 }
